@@ -1,3 +1,149 @@
+.modal {
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity .35s cubic-bezier(.22,.9,.2,1);
+}
+.modal:not(.hidden) {
+	opacity: 1;
+	pointer-events: auto;
+}
+.modal-content {
+	transform: scale(0.92);
+	opacity: 0;
+	transition: box-shadow .3s, transform .35s cubic-bezier(.22,.9,.2,1), opacity .35s cubic-bezier(.22,.9,.2,1);
+}
+.modal:not(.hidden) .modal-content {
+	transform: scale(1);
+	opacity: 1;
+}
+.item {
+	animation: cardIn .6s cubic-bezier(.22,.9,.2,1);
+}
+@keyframes cardIn {
+	0% { opacity: 0; transform: scale(0.92) translateY(18px); }
+	60% { opacity: 1; transform: scale(1.04) translateY(-4px); }
+	100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-details {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-width: 320px;
+}
+.modal-details img.pharmacy-img {
+	align-self: flex-end;
+	margin-bottom: 8px;
+}
+.modal-content {
+	transition: box-shadow .3s, transform .3s;
+	outline: none;
+}
+.modal:not(.hidden) .modal-content {
+	box-shadow: 0 24px 64px rgba(11,99,163,0.28);
+	transform: scale(1.04);
+}
+.modal-close:focus {
+	outline: 2px solid #0b63a3;
+}
+/* Hero section */
+.hero {
+	position: relative;
+	min-height: 340px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(120deg,#0b63a3 0%,#1070c6 100%);
+	color: #fff;
+	overflow: hidden;
+}
+.hero-bg {
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(circle at 60% 40%, #fff3, transparent 70%),
+							url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+	opacity: 0.18;
+	z-index: 1;
+}
+.hero-content {
+	position: relative;
+	z-index: 2;
+	text-align: center;
+	padding: 32px 0;
+}
+.hero-logo {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	box-shadow: 0 8px 32px rgba(11,99,163,0.18);
+	margin-bottom: 18px;
+}
+.hero-tagline {
+	font-size: 1.2rem;
+	font-weight: 400;
+	margin: 10px 0 18px 0;
+	color: #e0e7ef;
+}
+.hero-cta {
+	display: flex;
+	gap: 16px;
+	justify-content: center;
+	margin-top: 10px;
+}
+
+/* Pharmacy card and filter styles */
+.item {
+	background: linear-gradient(90deg,#e9f3ff,#fff 80%);
+	box-shadow: 0 4px 18px rgba(11,99,163,0.08);
+	border-left: 6px solid #0b63a3;
+	animation: slideLeft .5s cubic-bezier(.22,.9,.2,1);
+}
+.item .pharmacy-img {
+	width: 56px;
+	height: 56px;
+	border-radius: 12px;
+	object-fit: cover;
+	margin-right: 12px;
+	box-shadow: 0 2px 8px rgba(11,99,163,0.12);
+}
+.item .pharmacy-meta {
+	flex:1;
+}
+.filter-select {
+	margin-left: 10px;
+	padding: 8px 12px;
+	border-radius: 8px;
+	border: 1px solid #0b63a3;
+	background: #f6fbff;
+	color: #0b63a3;
+	font-weight: 600;
+}
+
+/* Animations for new UI */
+.badge {
+	animation: badgePop .5s cubic-bezier(.22,.9,.2,1);
+}
+@keyframes badgePop {
+	0% { transform: scale(0.7); }
+	60% { transform: scale(1.2); }
+	100% { transform: scale(1); }
+}
+
+/* Modal and slideshow polish */
+.modal-content {
+	box-shadow: 0 12px 48px rgba(11,99,163,0.18);
+}
+.slideshow {
+	background: linear-gradient(90deg,#e9f3ff,#fff 80%);
+	box-shadow: 0 4px 18px rgba(11,99,163,0.08);
+}
+
+/* Accessibility and mobile polish */
+@media (max-width:600px){
+	.hero-content{padding:18px 0;}
+	.hero-logo{width:56px;height:56px;}
+	.container{padding:8px;}
+	.item{flex-direction:column;align-items:flex-start;}
+}
 /* reset and base */
 *{box-sizing:border-box}
 html,body,#app{height:100%}

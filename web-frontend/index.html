@@ -13,6 +13,18 @@
 </head>
 <body>
   <div id="app">
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <img src="https://cdn-icons-png.flaticon.com/512/2965/2965567.png" alt="Pharmacy Logo" class="hero-logo" />
+        <h1>Pharmacy Tracker Africa</h1>
+        <p class="hero-tagline">Find, register, and explore pharmacies across East Africa.<br>Beautiful, fast, and always up-to-date.</p>
+        <div class="hero-cta">
+          <button id="hero-search" class="btn primary">Search Pharmacies</button>
+          <button id="hero-list" class="btn ghost">View All</button>
+        </div>
+      </div>
+    </section>
     <header class="topbar">
       <div class="brand">Pharmacy Tracker</div>
       <nav class="nav">
@@ -22,6 +34,17 @@
       </nav>
       <div class="search-wrap">
         <input id="search" placeholder="Search pharmacies..." />
+        <label for="country-filter" class="visually-hidden">Filter by Country</label>
+        <select id="country-filter" class="filter-select" title="Filter by Country">
+          <option value="">All Countries</option>
+          <option value="Uganda">Uganda</option>
+          <option value="Kenya">Kenya</option>
+          <option value="Tanzania">Tanzania</option>
+          <option value="Rwanda">Rwanda</option>
+          <option value="Burundi">Burundi</option>
+          <option value="South Sudan">South Sudan</option>
+          <option value="Ethiopia">Ethiopia</option>
+        </select>
       </div>
     </header>
 
@@ -45,6 +68,17 @@
             <label>Name<input name="name" required /></label>
             <label>Address<input name="address" /></label>
             <label>Phone<input name="phone" /></label>
+            <label>Country
+              <select name="country" required>
+                <option value="Uganda">Uganda</option>
+                <option value="Kenya">Kenya</option>
+                <option value="Tanzania">Tanzania</option>
+                <option value="Rwanda">Rwanda</option>
+                <option value="Burundi">Burundi</option>
+                <option value="South Sudan">South Sudan</option>
+                <option value="Ethiopia">Ethiopia</option>
+              </select>
+            </label>
             <div class="row">
               <button type="submit" class="btn primary">Register</button>
               <button type="button" id="reset-form" class="btn ghost">Reset</button>
@@ -68,7 +102,7 @@
       </div>
     </div>
 
-    <footer class="footer">© Pharmacy Tracker</footer>
+    <footer class="footer">© Pharmacy Tracker Africa</footer>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </body>
