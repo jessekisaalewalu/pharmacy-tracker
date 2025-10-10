@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pharmacy Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <script defer src="app.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">Pharmacy Tracker</div>
+      <nav class="nav">
+        <button id="btn-find" class="nav-btn active">Find</button>
+        <button id="btn-register" class="nav-btn">Register</button>
+        <button id="btn-list" class="nav-btn">All Pharmacies <span id="badge" class="badge">0</span></button>
+      </nav>
+      <div class="search-wrap">
+        <input id="search" placeholder="Search pharmacies..." />
+      </div>
+    </header>
+
+    <main class="container">
+      <section id="find-section" class="panel active">
+        <div class="split">
+          <div class="left">
+            <div id="map" class="map"></div>
+          </div>
+          <div class="right">
+            <div id="slideshow" class="slideshow"></div>
+            <div id="nearby" class="list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="register-section" class="panel">
+        <div class="card form-card">
+          <h2>Register Pharmacy</h2>
+          <form id="register-form">
+            <label>Name<input name="name" required /></label>
+            <label>Address<input name="address" /></label>
+            <label>Phone<input name="phone" /></label>
+            <div class="row">
+              <button type="submit" class="btn primary">Register</button>
+              <button type="button" id="reset-form" class="btn ghost">Reset</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="list-section" class="panel">
+        <div class="card">
+          <h2>All Pharmacies</h2>
+          <div id="list" class="list"></div>
+        </div>
+      </section>
+    </main>
+
+    <div id="modal" class="modal hidden">
+      <div class="modal-content">
+        <button id="modal-close" class="modal-close">×</button>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+
+    <footer class="footer">© Pharmacy Tracker</footer>
+  </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</body>
+</html>
