@@ -23,6 +23,11 @@
           <button id="hero-search" class="btn primary">Search Pharmacies</button>
           <button id="hero-list" class="btn ghost">View All</button>
         </div>
+        <div id="testimonials" class="testimonials" aria-live="polite">
+          <div class="testimonial active">“I found my medication quickly and easily!”<br><cite>- Amina, Nairobi</cite></div>
+          <div class="testimonial">“Directions to the nearest pharmacy were spot on.”<br><cite>- John, Kampala</cite></div>
+          <div class="testimonial">“Great for travelers and locals alike.”<br><cite>- Chantal, Kigali</cite></div>
+        </div>
       </div>
     </section>
     <header class="topbar">
@@ -34,6 +39,7 @@
       </nav>
       <div class="search-wrap">
         <input id="search" placeholder="Search pharmacies..." />
+        <div id="suggestions" class="suggestions hidden" role="listbox" aria-label="Search suggestions"></div>
         <label for="country-filter" class="visually-hidden">Filter by Country</label>
         <select id="country-filter" class="filter-select" title="Filter by Country">
           <option value="">All Countries</option>
@@ -105,5 +111,6 @@
     <footer class="footer">© Pharmacy Tracker Africa</footer>
   </div>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 </body>
 </html>

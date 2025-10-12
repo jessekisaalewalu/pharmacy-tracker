@@ -157,6 +157,11 @@ body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Rob
 .search-wrap{margin-left:12px;flex:1;display:flex;justify-content:flex-end}
 .search-wrap input{padding:8px 12px;border-radius:999px;border:1px solid rgba(11,99,163,0.12);width:260px;transition:box-shadow .15s ease}
 .search-wrap input:focus{outline:none;box-shadow:0 10px 30px rgba(11,99,163,0.08)}
+.search-wrap{position:relative}
+.suggestions{position:absolute;left:0;top:44px;width:320px;background:white;border-radius:10px;box-shadow:0 12px 36px rgba(2,6,23,0.08);z-index:60;overflow:hidden}
+.suggestions.hidden{display:none}
+.suggestions .option{padding:8px 12px;border-bottom:1px solid #f1f5f9;cursor:pointer}
+.suggestions .option:hover{background:#f6fbff}
 .badge{background:#ff3b30;color:white;padding:2px 6px;border-radius:999px;font-weight:700;margin-left:8px;font-size:12px}
 .container{padding:20px;max-width:1200px;margin:20px auto}.panel{display:none;animation:fadey .35s both}.panel.active{display:block}.split{display:flex;gap:16px}.left{flex:1;min-height:420px}.right{flex:0.9;display:flex;flex-direction:column;gap:12px}.map{width:100%;height:420px;border-radius:12px;overflow:hidden;border:1px solid rgba(15,23,42,0.04)}.slideshow{height:220px;border-radius:12px;background:linear-gradient(90deg,#e9f3ff,#fff);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
 .list{background:white;border-radius:12px;padding:12px;border:1px solid rgba(15,23,42,0.04);min-height:120px}
@@ -180,6 +185,37 @@ body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Rob
 .slideshow .slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;transition:transform .6s cubic-bezier(.22,.9,.2,1),opacity .6s}
 .slideshow .meta{position:relative;z-index:2;text-align:left}
 .slideshow .overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(2,6,23,0.04));z-index:1}
+
+/* testimonials slideshow */
+#testimonials {
+	margin-top:18px;
+	background:linear-gradient(90deg,#fff,#f6fbff);
+	padding:12px;
+	border-radius:12px;
+	position:relative;
+	min-height:48px;
+	max-width:420px;
+	text-align:center;
+	font-size:1.1em;
+	color:#333;
+	opacity:0.85;
+}
+.testimonial {
+	display:none;
+	position:absolute;
+	left:0; right:0; top:0;
+	animation: fadeIn 1.2s;
+}
+.testimonial.active {
+	display:block;
+}
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+/* marker cluster style tweak */
+.leaflet-marker-icon.cluster-icon{background:rgba(11,99,163,0.9);border-radius:50%;color:#fff}
 
 /* responsive */
 @media (max-width:900px){.split{flex-direction:column}.right{order:2}.search-wrap input{width:160px}}
