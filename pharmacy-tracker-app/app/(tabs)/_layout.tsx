@@ -150,6 +150,15 @@ export default function TabLayout() {
           tabBarTestID: 'tab-all-pharmacies',
         }}
       />
+      <Tabs.Screen
+        name="map"
+        options={{
+          title: 'Map',
+          tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
+          tabBarAccessibilityLabel: 'Map of pharmacies',
+          tabBarTestID: 'tab-map',
+        }}
+      />
     </Tabs>
   );
 }

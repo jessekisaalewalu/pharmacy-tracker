@@ -1,23 +1,9 @@
 // Frontend app.js - connects to backend and powers UI interactions
 // API base can be set via window.API_BASE or query param ?api=
-const FALLBACK_BASES = ['/api/v1', 'http://127.0.0.1:8000/api/v1'];
-let apiBase = window.API_BASE || null;
-// allow override with ?api=https://host
-try {
-  const qp = new URLSearchParams(window.location.search).get('api');
-  if (qp) apiBase = qp.replace(/\/+$/, '');
-} catch (e) {}
-if (!apiBase) apiBase = FALLBACK_BASES[0];
+const API_BASE = 'http://127.0.0.1:8000/api/v1';
 
 function tryFetch(path, opts) {
-  return fetch(apiBase + path, opts).then(res => {
-    if (res.ok) return res;
-    // try fallback bases
-    return fetch(FALLBACK_BASES[1] + path, opts);
-  }).catch(() => {
-    // last-resort fallback
-    return fetch(FALLBACK_BASES[1] + path, opts);
-  });
+  return fetch(API_BASE + path, opts);
 }
 
 // Default dataset (East Africa) - used as a fallback when API isn't available

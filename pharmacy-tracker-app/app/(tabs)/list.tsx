@@ -22,14 +22,9 @@ export default function ListScreen() {
     setRefreshing(true);
     setError(null);
     try {
-      const res = await fetch('/api/v1/pharmacies');
+      const res = await fetch('http://127.0.0.1:8000/api/v1/pharmacies');
       if (!res.ok) {
-        const res2 = await fetch('http://127.0.0.1:8000/api/v1/pharmacies');
-        if (!res2.ok) throw new Error('Failed to fetch');
-        const d2 = await res2.json();
-        setData(Array.isArray(d2) ? d2 : (d2?.data ?? []));
-        setRefreshing(false);
-        return;
+        throw new Error('Failed to fetch pharmacies from backend');
       }
       const d = await res.json();
       setData(Array.isArray(d) ? d : (d?.data ?? []));
