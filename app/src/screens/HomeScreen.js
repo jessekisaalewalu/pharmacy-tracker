@@ -11,7 +11,7 @@ export default function HomeScreen({ navigation }) {
       <Text style={styles.subtitle}>Find the nearest pharmacies instantly — web & mobile.</Text>
 
       <View style={{ width: '100%', marginTop: 28 }}>
-        <AnimatedButton title="Find Nearby Pharmacies" onPress={() => navigation.navigate('List')} />
+        <AnimatedButton title="Find Nearby Pharmacies" onPress={() => navigation.navigate('Map')} />
       </View>
 
       <TouchableOpacity style={styles.secondary} onPress={() => navigation.navigate('Register')}>
