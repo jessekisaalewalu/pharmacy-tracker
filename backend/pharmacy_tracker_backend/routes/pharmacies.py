@@ -1,7 +1,12 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify  # type: ignore
 from pharmacy_tracker_backend import db
 from pharmacy_tracker_backend.database.models import Pharmacy
-from sqlalchemy.exc import IntegrityError
+try:
+    from sqlalchemy.exc import IntegrityError  # type: ignore
+except Exception:  # pragma: no cover
+    # Fallback for environments where SQLAlchemy isn't installed (e.g., static analysis)
+    class IntegrityError(Exception):
+        pass
 import json
 
 pharmacies_bp = Blueprint('pharmacies', __name__)

@@ -1,5 +1,10 @@
 import os
-from dotenv import load_dotenv
+try:
+	from dotenv import load_dotenv  # type: ignore
+except Exception:
+	def load_dotenv(*args, **kwargs):
+		"""Fallback no-op if python-dotenv is not installed."""
+		return False
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv()
