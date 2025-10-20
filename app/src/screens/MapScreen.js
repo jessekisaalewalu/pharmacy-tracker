@@ -9,6 +9,7 @@ import {
   Text,
   FlatList,
 } from "react-native";
+import WebPharmacyCard from '../components/WebPharmacyCard';
 import * as Location from "expo-location";
 import InteractiveCard from "../components/InteractiveCard";
 import { fetchNearest } from "../api";
@@ -61,20 +62,15 @@ export default function MapScreen({ navigation }) {
   // Avoid importing it on web. Render a simple list with coordinates instead.
   if (Platform.OS === 'web') {
     return (
-      <View style={[styles.container, { padding: 16 }]}>
-        <Text style={{ fontSize: 20, fontWeight: '700', marginBottom: 8 }}>Nearby Pharmacies</Text>
+      <View style={[styles.container, { padding: 24, backgroundColor: '#f4f7fb' }]}>
+        <Text style={styles.webHeader}>Nearby Pharmacies</Text>
         <FlatList
           data={pharmacies}
           keyExtractor={(item) => item.id?.toString() || Math.random().toString()}
           renderItem={({ item }) => (
-            <View style={styles.webItem}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.address}>{item.address}</Text>
-              <Text style={styles.contact}>📍 {item.latitude}, {item.longitude}</Text>
-              <Text style={styles.contact}>📞 {item.phone_number}</Text>
-              <Text style={{ color: '#0a84ff', marginTop: 6 }} onPress={() => navigation.navigate('PharmacyDetail', { pharmacy: item })}>View details</Text>
-            </View>
+            <WebPharmacyCard pharmacy={item} onPress={(p) => navigation.navigate('PharmacyDetail', { pharmacy: p })} />
           )}
+          contentContainerStyle={{ paddingBottom: 120 }}
         />
       </View>
     );
