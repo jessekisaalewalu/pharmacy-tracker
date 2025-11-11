@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Tracker - Find Nearest Pharmacies</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-hospital"></i>
+                <span>Pharmacy Tracker</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#" data-page="home" class="nav-link active">Home</a></li>
+                <li><a href="#" data-page="search" class="nav-link">Find Pharmacies</a></li>
+                <li><a href="#" data-page="register" class="nav-link">Register</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Pages Container -->
+    <main class="main-container">
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Pharmacy Tracker</h1>
+                    <p>Find the nearest pharmacies instantly — web & mobile.</p>
+                    <p class="subtitle">Search for medications, locate nearest pharmacies, and get instant contact information.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" data-page="search">Find Nearby Pharmacies</button>
+                        <button class="btn btn-secondary" data-page="register">Register a Pharmacy</button>
+                    </div>
+                </div>
+            </div>
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-map-location-dot"></i>
+                    <h3>Find Nearest</h3>
+                    <p>Locate pharmacies nearest to your current location</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Contact Info</h3>
+                    <p>Get phone numbers, addresses, and opening hours</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-search"></i>
+                    <h3>Search</h3>
+                    <p>Search pharmacies by name or location</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-clipboard-check"></i>
+                    <h3>Register</h3>
+                    <p>Register your pharmacy to be discovered by customers</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search/Map Page -->
+        <section id="search" class="page">
+            <div class="search-container">
+                <div class="search-header">
+                    <h2>Find Pharmacies Near You</h2>
+                    <button id="getLocationBtn" class="btn btn-primary">
+                        <i class="fas fa-location-crosshairs"></i> Use My Location
+                    </button>
+                </div>
+
+                <div class="location-filters">
+                    <div class="filter-row">
+                        <div class="filter-col">
+                            <label for="countrySelect">Country</label>
+                            <select id="countrySelect" class="location-select">
+                                <option value="">Select a country...</option>
+                            </select>
+                        </div>
+                        <div class="filter-col">
+                            <label for="regionSelect">Region/State</label>
+                            <select id="regionSelect" class="location-select" disabled>
+                                <option value="">Select a region...</option>
+                            </select>
+                        </div>
+                        <div class="filter-col">
+                            <label for="citySelect">City</label>
+                            <select id="citySelect" class="location-select" disabled>
+                                <option value="">Select a city...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-controls">
+                    <input type="text" id="searchInput" placeholder="Search by pharmacy name or address..." class="search-input">
+                    <div class="filter-group">
+                        <label for="radiusFilter">Search Radius (km):</label>
+                        <input type="range" id="radiusFilter" min="1" max="50" value="10" class="radius-slider">
+                        <span id="radiusValue">10</span>
+                    </div>
+                </div>
+
+                <div id="locationStatus" class="location-status"></div>
+                <div id="loadingSpinner" class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Finding pharmacies near you...</p>
+                </div>
+
+                <!-- Map Container -->
+                <div id="mapContainer" class="map-container">
+                    <div id="map" class="map"></div>
+                </div>
+
+                <!-- Pharmacies List -->
+                <div class="pharmacies-section">
+                    <h3>Nearby Pharmacies</h3>
+                    <div id="pharmaciesList" class="pharmacies-list">
+                        <p class="placeholder">No pharmacies found. Enable location access or search to find pharmacies.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Register Page -->
+        <section id="register" class="page">
+            <div class="register-container">
+                <div class="register-header">
+                    <h2>Register Your Pharmacy</h2>
+                    <p>Help customers find you. Register your pharmacy details below.</p>
+                </div>
+
+                <form id="registerForm" class="register-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pharmacyName">Pharmacy Name *</label>
+                            <input type="text" id="pharmacyName" name="name" required placeholder="Enter pharmacy name">
+                            <span class="error-msg"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPerson">Contact Person</label>
+                            <input type="text" id="contactPerson" name="contact_person" placeholder="Enter contact person name">
+                            <span class="error-msg"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number *</label>
+                            <input type="tel" id="phoneNumber" name="phone_number" required placeholder="Enter phone number">
+                            <span class="error-msg"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter email address">
+                            <span class="error-msg"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address *</label>
+                        <input type="text" id="address" name="address" required placeholder="Enter full address">
+                        <span class="error-msg"></span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="latitude">Latitude</label>
+                            <input type="number" id="latitude" name="latitude" step="0.00001" placeholder="Auto-detected or enter manually">
+                            <span class="error-msg"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="longitude">Longitude</label>
+                            <input type="number" id="longitude" name="longitude" step="0.00001" placeholder="Auto-detected or enter manually">
+                            <span class="error-msg"></span>
+                        </div>
+                    </div>
+
+                    <button type="button" id="detectLocationBtn" class="btn btn-secondary btn-small">
+                        <i class="fas fa-map-pin"></i> Detect Current Location
+                    </button>
+
+                    <div class="form-group">
+                        <label for="openingHours">Opening Hours</label>
+                        <input type="text" id="openingHours" name="opening_hours" placeholder="e.g., 8:00 AM - 9:00 PM">
+                        <span class="error-msg"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="services">Services (comma-separated)</label>
+                        <textarea id="services" name="services" placeholder="e.g., Vaccinations, Testing, Consultations"></textarea>
+                        <span class="error-msg"></span>
+                    </div>
+
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="isRegistered" name="is_registered_by_pharmacy">
+                        <label for="isRegistered">I am registering this pharmacy officially</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-large">Register Pharmacy</button>
+                </form>
+
+                <div id="registerMessage" class="message-box"></div>
+            </div>
+        </section>
+
+        <!-- Pharmacy Detail Modal -->
+        <div id="detailModal" class="modal">
+            <div class="modal-content">
+                <button class="modal-close">&times;</button>
+                <div id="detailContent" class="detail-content">
+                    <!-- Pharmacy details will be populated here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Pharmacy Tracker. Research for Development — Rwanda</p>
+    </footer>
+
+    <script src="api.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
