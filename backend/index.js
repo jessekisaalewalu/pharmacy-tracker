@@ -1,25 +1,24 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const { db, init } = require('./db');
-const pharmaciesRouter = require('./routes/pharmacies');
+const { spawn } = require('child_process');
+const path = require('path');
 
+// Start the Python Flask backend
+const pythonProcess = spawn('python', [path.join(__dirname, 'run.py')]);
 
-const app = express();
-const PORT = process.env.PORT || 4000;
+pythonProcess.stdout.on('data', (data) => {
+  console.log(`[Python Backend] ${data}`);
+});
 
+pythonProcess.stderr.on('data', (data) => {
+  console.error(`[Python Backend Error] ${data}`);
+});
 
-app.use(cors());
-app.use(bodyParser.json());
+pythonProcess.on('close', (code) => {
+  console.log(`Python backend process exited with code ${code}`);
+  process.exit(code);
+});
 
-
-init();
-
-
-app.use('/api/pharmacies', pharmaciesRouter);
-
-
-app.get('/', (req, res) => res.send('Pharmacy backend is running'));
-
-
-app.listen(PORT, () => console.log(`Backend listening at http://localhost:${PORT}`));
+// Handle shutdown gracefully
+process.on('SIGINT', () => {
+  pythonProcess.kill('SIGINT');
+  process.exit(0);
+});

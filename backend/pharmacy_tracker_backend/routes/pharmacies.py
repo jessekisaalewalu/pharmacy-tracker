@@ -15,10 +15,17 @@ pharmacies_bp = Blueprint('pharmacies', __name__)
 @pharmacies_bp.route('/pharmacies', methods=['GET'])
 def get_pharmacies():
     try:
-        # Query params
-        latitude = request.args.get('latitude', type=float)
-        longitude = request.args.get('longitude', type=float)
+        # Query params - support both lat/lng and latitude/longitude
+        latitude = request.args.get('lat') or request.args.get('latitude')
+        longitude = request.args.get('lng') or request.args.get('longitude')
+        limit = request.args.get('limit', type=int, default=None)
         search = request.args.get('search', type=str)
+
+        # Convert to float if provided
+        if latitude:
+            latitude = float(latitude)
+        if longitude:
+            longitude = float(longitude)
 
         query = Pharmacy.query
 
@@ -26,6 +33,32 @@ def get_pharmacies():
             query = query.filter(Pharmacy.name.ilike(f'%{search}%'))
 
         pharmacies = query.all()
+
+        # If coordinates provided, compute distances and sort by nearest
+        if latitude is not None and longitude is not None:
+            import math
+            
+            def distance(lat1, lon1, lat2, lon2):
+                # Haversine formula for distance calculation
+                R = 6371  # Earth's radius in km
+                phi1 = math.radians(lat1)
+                phi2 = math.radians(lat2)
+                delta_phi = math.radians(lat2 - lat1)
+                delta_lambda = math.radians(lon2 - lon1)
+                a = math.sin(delta_phi/2)**2 + math.cos(phi1) * math.cos(phi2) * math.sin(delta_lambda/2)**2
+                c = 2 * math.asin(math.sqrt(a))
+                return R * c
+            
+            # Add distance to each pharmacy
+            for pharmacy in pharmacies:
+                pharmacy.distance = distance(latitude, longitude, pharmacy.latitude, pharmacy.longitude)
+            
+            # Sort by distance
+            pharmacies = sorted(pharmacies, key=lambda p: p.distance)
+        
+        # Apply limit if provided
+        if limit:
+            pharmacies = pharmacies[:limit]
 
         # Optionally, compute distances if coordinates provided
         data = [p.to_dict() for p in pharmacies]
