@@ -215,6 +215,18 @@ class PharmacyTrackerApp {
                 const page = link.getAttribute('data-page');
                 this.navigateTo(page);
             });
+            // Add keyboard activation for elements that are not native buttons/links
+            const role = link.getAttribute('role');
+            const tab = link.getAttribute('tabindex');
+            if (role === 'button' || tab !== null) {
+                link.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                        e.preventDefault();
+                        const page = link.getAttribute('data-page');
+                        this.navigateTo(page);
+                    }
+                });
+            }
         });
 
         // Hamburger menu
@@ -273,6 +285,11 @@ class PharmacyTrackerApp {
 
         if (pageName === 'search') {
             setTimeout(() => this.renderMap(), 100);
+            // Focus search input for quick typing
+            setTimeout(() => {
+                const input = document.getElementById('searchInput');
+                if (input) input.focus();
+            }, 150);
         }
     }
 
@@ -284,9 +301,17 @@ class PharmacyTrackerApp {
         try {
             const response = await api.fetchAll();
             const data = Array.isArray(response) ? response : response.data || [];
+            // Normalize coordinate fields so both `lat`/`lng` and `latitude`/`longitude` are supported
+            data.forEach(item => {
+                if (item.lat !== undefined && item.latitude === undefined) item.latitude = parseFloat(item.lat);
+                if (item.lng !== undefined && item.longitude === undefined) item.longitude = parseFloat(item.lng);
+                if (typeof item.latitude === 'string') item.latitude = parseFloat(item.latitude);
+                if (typeof item.longitude === 'string') item.longitude = parseFloat(item.longitude);
+            });
             this.pharmacies = data;
             this.filteredPharmacies = data;
             console.log('Loaded pharmacies:', this.pharmacies.length);
+            this.renderPharmaciesList(); // Render immediately after loading
         } catch (error) {
             console.error('Failed to load pharmacies:', error);
             this.showLocationStatus('error', 'Failed to load pharmacies. Ensure backend is running on port 4000.');
@@ -381,6 +406,11 @@ class PharmacyTrackerApp {
 
             // Sort by distance
             filtered.sort((a, b) => (a.distance || Infinity) - (b.distance || Infinity));
+        } else {
+            // If no location selected, just show all pharmacies
+            filtered.forEach(pharmacy => {
+                pharmacy.distance = undefined;
+            });
         }
 
         this.filteredPharmacies = filtered;
@@ -397,11 +427,29 @@ class PharmacyTrackerApp {
         }
 
         const searchTerm = query.toLowerCase();
-        this.filteredPharmacies = this.pharmacies.filter(pharmacy => 
+        let filtered = this.pharmacies.filter(pharmacy => 
             pharmacy.name.toLowerCase().includes(searchTerm) ||
             (pharmacy.address && pharmacy.address.toLowerCase().includes(searchTerm))
         );
 
+        // Apply distance filter if location is available
+        if (this.currentLocation) {
+            filtered = filtered.filter(pharmacy => {
+                const distance = this.calculateDistance(
+                    this.currentLocation.latitude,
+                    this.currentLocation.longitude,
+                    pharmacy.latitude || 0,
+                    pharmacy.longitude || 0
+                );
+                pharmacy.distance = distance;
+                return distance <= this.searchRadius;
+            });
+
+            // Sort by distance
+            filtered.sort((a, b) => (a.distance || Infinity) - (b.distance || Infinity));
+        }
+
+        this.filteredPharmacies = filtered;
         this.renderPharmaciesList();
     }
 
@@ -412,7 +460,7 @@ class PharmacyTrackerApp {
         const container = document.getElementById('pharmaciesList');
         
         if (this.filteredPharmacies.length === 0) {
-            container.innerHTML = '<p class="placeholder">No pharmacies found. Try adjusting your search radius or location.</p>';
+            container.innerHTML = '<p class="placeholder">No pharmacies found. Try adjusting your search radius, location, or search term.</p>';
             return;
         }
 

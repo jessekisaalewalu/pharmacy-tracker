@@ -18,7 +18,7 @@ export default function PharmacyCard({ item, onPress }) {
           <View style={styles.info}>
             <Text style={styles.title}>{item.name}</Text>
             <Text numberOfLines={2} style={styles.addr}>{item.address || 'No address provided'}</Text>
-            {item.contact ? <Text style={styles.contact}>Contact: {item.contact}</Text> : null}
+            {item.phone_number ? <Text style={styles.contact}>Contact: {item.phone_number}</Text> : null}
           </View>
           {item.distance_km !== undefined && item.distance_km !== null ? (
             <View style={styles.distWrap}>

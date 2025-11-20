@@ -44,24 +44,29 @@ When you select a location, the app automatically filters pharmacies within 50km
 
 ### Finding Pharmacies by Location
 
-1. **Open App**
-   - Go to http://localhost:8000 in your browser
+1. **Start the Backend**
+   - Navigate to the backend folder: `cd backend`
+   - Run: `npm start`
+   - Wait for: `* Running on http://127.0.0.1:4000`
 
-2. **Navigate to "Find Pharmacies"**
+2. **Open App**
+   - Go to http://localhost:4000 in your browser
+
+3. **Navigate to "Find Pharmacies"**
    - Click the "Find Pharmacies" button on home page
 
-3. **Select Your Location**
+4. **Select Your Location**
    - Choose **Country** from dropdown (e.g., "Rwanda")
    - Choose **Region** (e.g., "Kigali")
    - Choose **City** (e.g., "Kigali Central")
 
-4. **View Results**
+5. **View Results**
    - Pharmacies near your selected location appear instantly
    - Sorted by distance (closest first)
    - Adjust search radius (1-50 km) with the slider
    - Search by pharmacy name with the text box
 
-5. **Click Pharmacy Card**
+6. **Click Pharmacy Card**
    - Opens detailed view with:
      - Full address
      - Phone number (clickable to call)
@@ -70,7 +75,7 @@ When you select a location, the app automatically filters pharmacies within 50km
      - Services offered
      - Exact distance from your location
 
-6. **Use Your Actual Location**
+7. **Use Your Actual Location**
    - Click "Use My Location" button
    - Grant browser location permission
    - App shows pharmacies near your real GPS location
@@ -88,6 +93,36 @@ When you select a location, the app automatically filters pharmacies within 50km
    - Or manually enter latitude/longitude
 4. **Submit**
    - Pharmacy appears in search results immediately
+
+---
+
+## 🔧 Backend Routes (Named)
+
+### System Routes
+| Route Name | Method | Endpoint | Purpose |
+|-----------|--------|----------|---------|
+| `health` | GET | `/health` | Backend health check |
+| `index` | GET | `/` | Serve frontend (index.html) |
+| `catch_all` | GET | `/<path>` | SPA routing fallback |
+
+### Pharmacy API Routes
+| Route Name | Method | Endpoint | Purpose |
+|-----------|--------|----------|---------|
+| `get_pharmacies` | GET | `/api/pharmacies` | Get all/nearest pharmacies |
+| `get_pharmacy` | GET | `/api/pharmacies/:id` | Get single pharmacy |
+| `create_pharmacy` | POST | `/api/pharmacies` | Create new pharmacy |
+| `update_pharmacy` | PUT | `/api/pharmacies/:id` | Update pharmacy |
+| `delete_pharmacy` | DELETE | `/api/pharmacies/:id` | Delete pharmacy |
+
+### Frontend API Functions
+```javascript
+fetchNearest(lat, lng, limit)    // Get nearest pharmacies
+fetchAll()                       // Get all pharmacies
+createPharmacy(payload)          // Create pharmacy
+updatePharmacy(id, payload)      // Update pharmacy
+deletePharmacy(id)               // Delete pharmacy
+checkBackendHealth()             // Check if backend is running
+```
 
 ---
 
@@ -292,8 +327,12 @@ The Pharmacy Tracker is now:
 - ✅ Fully functional
 - ✅ Beautiful and responsive
 - ✅ Connected to the backend
+- ✅ 8 named routes configured
 - ✅ Ready for production
 
-**Try it now at http://localhost:8000**
+**To start:**
+1. `cd backend`
+2. `npm start`
+3. Open http://localhost:4000
 
 Built with ❤️ for finding pharmacies easily!

@@ -32,11 +32,10 @@ export default function RegisterScreen({ navigation }) {
     try {
       const payload = {
         name: name.trim(),
-        contact: contact.trim(),
+        phone_number: contact.trim(),
         address: address.trim(),
-        description: description.trim(),
-        latitude: latlng?.latitude ?? null,
-        longitude: latlng?.longitude ?? null
+        latitude: latlng?.latitude ?? 0.0,
+        longitude: latlng?.longitude ?? 0.0
       };
       await createPharmacy(payload);
       Alert.alert('Success', 'Pharmacy registered successfully.');
